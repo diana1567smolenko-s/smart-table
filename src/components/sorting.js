@@ -1,4 +1,56 @@
-import {sortCollection, sortMap} from "../lib/sort.js";
+import { sortCollection, sortMap } from "../lib/sort.js";
+
+/**
+ * Инициализация сортировки
+ */
+export function initSorting(columns) {
+    let field = null;
+    let order = null;
+
+    return (data, state, action) => {
+        if (action && action.name === 'sort') {
+            action.dataset.value = sortMap[action.dataset.value];
+            field = action.dataset.field;
+            order = action.dataset.value;
+
+            columns.forEach(column => {
+                if (column.dataset.field !== action.dataset.field) {
+                    column.dataset.value = 'none';
+                }
+            });
+        } else {
+            columns.forEach(column => {
+                if (column.dataset.value !== 'none') {
+                    field = column.dataset.field;
+                    order = column.dataset.value;
+                }
+            });
+        }
+
+        return sortCollection(data, field, order);
+    };
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* import {sortCollection, sortMap} from "../lib/sort.js";
 
 export function initSorting(columns) {
     return (data, state, action) => {
@@ -15,4 +67,4 @@ export function initSorting(columns) {
 
         return sortCollection(data, field, order);
     }
-}
+} */ 
